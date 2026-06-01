@@ -8,10 +8,21 @@ body{
     overflow:hidden;
 }
 
+#game{
+    display:none;
+    position:relative;
+    width:1280px;
+    height:1000px;
+    overflow:hidden;
+}
+
 #room{
+    position:absolute;
+    inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
+    z-index:1;
 }
 
 #player{
@@ -43,77 +54,31 @@ body{
     inset:0;
     display:flex;
     flex-direction:column;
-    justify-content:flex-start;
     align-items:center;
-    background:transparent;
+    justify-content:center;
     z-index:999;
-    overflow:hidden;
-    padding:0;
-    width:100%;
-    height:100%;
 }
 
 #menuImg{
-    width:auto;
-    height:50%;
-    max-width:100%;
+    width:100%;
+    height:100%;
     object-fit:contain;
     image-rendering:pixelated;
 }
 
+/* Completely invisible button */
 #startBtn{
-    position:fixed;
-    bottom:0;
-    left:0;
+    position:absolute;
+    inset:0;
     width:100%;
-    height:50%;
-    font-size:0;
-    line-height:0;
-    color:transparent;
+    height:100%;
+    background:transparent;
     border:none;
-    outline:none !important;
-    box-shadow:none !important;
+    outline:none;
+    color:transparent;
+    font-size:0;
     cursor:pointer;
-    background:transparent !important;
+    z-index:1000;
     padding:0;
     margin:0;
-    -webkit-appearance:none;
-    appearance:none;
-    z-index:1000;
-    display:block;
-    min-height:50%;
-}
-
-#startBtn:hover{
-    background:transparent !important;
-    outline:none !important;
-    box-shadow:none !important;
-    border:none;
-}
-
-#startBtn:focus{
-    background:transparent !important;
-    outline:none !important;
-    box-shadow:none !important;
-    border:none;
-}
-
-#startBtn:active{
-    background:transparent !important;
-    outline:none !important;
-    box-shadow:none !important;
-    border:none;
-}
-
-#startBtn::before,
-#startBtn::after {
-    display:none !important;
-}
-
-#game{
-    display:none;
-    position:relative;
-    width:1280px;
-    height:1000px;
-    overflow:hidden;
 }
