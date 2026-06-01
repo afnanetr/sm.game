@@ -1,106 +1,63 @@
-// Game configuration constants
-const CONFIG = {
-    SPEED: 2,
-    INITIAL_X: 600,
-    INITIAL_Y: 500,
-    BOUNDARY_PADDING: 50
-};
-
-// Sprite map for cleaner direction handling
-const spriteMap = {
-    "left": "character_s_left.png",
-    "right": "character_s_right.png",
-    "back": "character_s_back.png",
-    "front": "character_s_front.png"
-};
-
-// DOM elements
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+    menu.style.display = "none";
+    game.style.display = "block";
+    update(); // start the game loop
+});
+
+
 const player = document.getElementById("player");
 
-// Game state
-const GameState = {
-    x: CONFIG.INITIAL_X,
-    y: CONFIG.INITIAL_Y,
-    keys: {},
-    lastDirection: "front",
-    isRunning: false,
+let x = 600;
+let y = 500;
+const speed = 2;
 
-    init() {
-        this.setupEventListeners();
-    },
+const keys = {};
+let lastDirection = "front";
 
-    setupEventListeners() {
-        startBtn.addEventListener("click", () => this.start());
-        document.addEventListener("keydown", (e) => this.handleKeyDown(e));
-        document.addEventListener("keyup", (e) => this.handleKeyUp(e));
-    },
+document.addEventListener("keydown", (e) => {
+    keys[e.key] = true;
+});
 
-    start() {
-        menu.style.display = "none";
-        game.style.display = "block";
-        this.isRunning = true;
-        this.update();
-    },
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+});
 
-    handleKeyDown(e) {
-        this.keys[e.key] = true;
-    },
-
-    handleKeyUp(e) {
-        this.keys[e.key] = false;
-    },
-
-    handleInput() {
-        if (this.keys["ArrowLeft"]) {
-            this.x -= CONFIG.SPEED;
-            this.lastDirection = "left";
-        }
-
-        if (this.keys["ArrowRight"]) {
-            this.x += CONFIG.SPEED;
-            this.lastDirection = "right";
-        }
-
-        if (this.keys["ArrowUp"]) {
-            this.y -= CONFIG.SPEED;
-            this.lastDirection = "back";
-        }
-
-        if (this.keys["ArrowDown"]) {
-            this.y += CONFIG.SPEED;
-            this.lastDirection = "front";
-        }
-    },
-
-    updatePosition() {
-        // Apply boundary checking to keep player on screen
-        const gameArea = game.getBoundingClientRect();
-        const maxX = gameArea.width - CONFIG.BOUNDARY_PADDING;
-        const maxY = gameArea.height - CONFIG.BOUNDARY_PADDING;
-
-        this.x = Math.max(0, Math.min(this.x, maxX));
-        this.y = Math.max(0, Math.min(this.y, maxY));
-    },
-
-    updateSprite() {
-        player.src = spriteMap[this.lastDirection];
-        player.style.left = this.x + "px";
-        player.style.top = this.y + "px";
-    },
-
-    update() {
-        if (!this.isRunning) return;
-
-        this.handleInput();
-        this.updatePosition();
-        this.updateSprite();
-
-        requestAnimationFrame(() => this.update());
+function update() {
+    if (keys["ArrowLeft"]) {
+        x -= speed;
+        lastDirection = "left";
     }
-};
 
-// Initialize the game
-GameState.init();
+    if (keys["ArrowRight"]) {
+        x += speed;
+        lastDirection = "right";
+    }
+
+    if (keys["ArrowUp"]) {
+        y -= speed;
+        lastDirection = "back";
+    }
+
+    if (keys["ArrowDown"]) {
+        y += speed;
+        lastDirection = "front";
+    }
+
+    // Sprite map for cleaner code
+    const spriteMap = {
+        "left": "character_s_left.png",
+        "right": "character_s_right.png",
+        "back": "character_s_back.png",
+        "front": "character_s_front.png"
+    };
+
+    player.src = spriteMap[lastDirection];
+    player.style.left = x + "px";
+    player.style.top = y + "px";
+
+    requestAnimationFrame(update);
+}
