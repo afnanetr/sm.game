@@ -60,16 +60,33 @@ body{
 #startBtn{
     width:100%;
     height:30%;
-    font-size:24px;
+    font-size:0;
     color:transparent;
     border:none;
+    outline:none;
+    box-shadow:none;
     cursor:pointer;
     background:transparent;
     padding:0;
+    margin:0;
 }
 
 #startBtn:hover{
     background:transparent;
+    outline:none;
+    box-shadow:none;
+}
+
+#startBtn:focus{
+    background:transparent;
+    outline:none;
+    box-shadow:none;
+}
+
+#startBtn:active{
+    background:transparent;
+    outline:none;
+    box-shadow:none;
 }
 
 #game{
