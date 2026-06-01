@@ -35,8 +35,8 @@ const spriteMap = {
 const pickSpriteMap = {
     left: "character_pick_left.png",
     right: "character_pick.png",
-    back: "character_pick_back.png",
-    front: "character_pick.png"
+    back: "character_pick.png",
+    front: "character_pick_front.png"
 };
 
 function collectLetter(letter){
