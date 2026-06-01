@@ -35,7 +35,7 @@ const spriteMap = {
 const pickSpriteMap = {
     left: "character_pick_left.png",
     right: "character_pick.png",
-    back: "character_pick.png",
+    back: "character_pick_front.png",
     front: "character_pick_front.png"
 };
 
