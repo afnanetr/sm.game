@@ -48,16 +48,16 @@ function update() {
     }
 
     if (lastDirection === "left") {
-        player.src = "assets/character_s_left.png";
+        player.src = "character_s_left.png";
     } 
     else if (lastDirection === "right") {
-        player.src = "assets/character_s_right.png";
+        player.src = "character_s_right.png";
     } 
     else if (lastDirection === "back") {
-        player.src = "assets/character_s_back.png";
+        player.src = "character_s_back.png";
     } 
     else {
-        player.src = "assets/character_s_front.png";
+        player.src = "character_s_front.png";
     }
 
     player.style.left = x + "px";
