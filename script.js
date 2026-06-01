@@ -13,7 +13,7 @@ const player = document.getElementById("player");
 
 let x = 600;
 let y = 500;
-const speed = 2;
+const speed = 3;
 
 const keys = {};
 let lastDirection = "front";
