@@ -1,14 +1,6 @@
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const startBtn = document.getElementById("startBtn");
-
-startBtn.addEventListener("click", () => {
-    menu.style.display = "none";
-    game.style.display = "block";
-    update(); // start the game loop
-});
-
-
 const player = document.getElementById("player");
 
 let x = 600;
@@ -17,6 +9,13 @@ const speed = 5;
 
 const keys = {};
 let lastDirection = "front";
+let isPicking = false;
+
+startBtn.addEventListener("click", () => {
+    menu.style.display = "none";
+    game.style.display = "block";
+    update();
+});
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
@@ -26,38 +25,79 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
-function update() {
-    if (keys["ArrowLeft"]) {
+const spriteMap = {
+    left: "character_s_left.png",
+    right: "character_s_right.png",
+    back: "character_s_back.png",
+    front: "character_s_front.png"
+};
+
+function collectLetter(letter){
+
+    if(isPicking) return;
+
+    isPicking = true;
+
+    player.src = "character_pick.png";
+
+    letter.style.display = "none";
+
+    setTimeout(() => {
+        isPicking = false;
+        player.src = spriteMap[lastDirection];
+    }, 500);
+}
+
+function checkLetters(){
+
+    document.querySelectorAll(".letter").forEach(letter => {
+
+        if(letter.style.display === "none") return;
+
+        const p = player.getBoundingClientRect();
+        const l = letter.getBoundingClientRect();
+
+        if(
+            p.left < l.right &&
+            p.right > l.left &&
+            p.top < l.bottom &&
+            p.bottom > l.top
+        ){
+            collectLetter(letter);
+        }
+    });
+}
+
+function update(){
+
+    if(keys["ArrowLeft"]){
         x -= speed;
         lastDirection = "left";
     }
 
-    if (keys["ArrowRight"]) {
+    if(keys["ArrowRight"]){
         x += speed;
         lastDirection = "right";
     }
 
-    if (keys["ArrowUp"]) {
+    if(keys["ArrowUp"]){
         y -= speed;
         lastDirection = "back";
     }
 
-    if (keys["ArrowDown"]) {
+    if(keys["ArrowDown"]){
         y += speed;
         lastDirection = "front";
     }
 
-    // Sprite map for cleaner code
-    const spriteMap = {
-        "left": "character_s_left.png",
-        "right": "character_s_right.png",
-        "back": "character_s_back.png",
-        "front": "character_s_front.png"
-    };
-
-    player.src = spriteMap[lastDirection];
     player.style.left = x + "px";
     player.style.top = y + "px";
+
+    if(!isPicking){
+        player.src = spriteMap[lastDirection];
+    }
+
+    checkLetters();
 
     requestAnimationFrame(update);
 }
