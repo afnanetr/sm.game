@@ -10,6 +10,7 @@ const speed = 5;
 const keys = {};
 let lastDirection = "front";
 let isPicking = false;
+let pickDirection = "front";
 
 startBtn.addEventListener("click", () => {
     menu.style.display = "none";
@@ -44,8 +45,9 @@ function collectLetter(letter){
     if(isPicking) return;
 
     isPicking = true;
+    pickDirection = lastDirection;
 
-    player.src = pickSpriteMap[lastDirection];
+    player.src = pickSpriteMap[pickDirection];
 
     setTimeout(() => {
         letter.remove(); // Remove the letter element completely
