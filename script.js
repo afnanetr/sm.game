@@ -40,9 +40,8 @@ function collectLetter(letter){
 
     player.src = "character_pick.png";
 
-    letter.style.display = "none";
-
     setTimeout(() => {
+        letter.remove(); // Remove the letter element completely
         isPicking = false;
         player.src = spriteMap[lastDirection];
     }, 500);
@@ -51,8 +50,6 @@ function collectLetter(letter){
 function checkLetters(){
 
     document.querySelectorAll(".letter").forEach(letter => {
-
-        if(letter.style.display === "none") return;
 
         const p = player.getBoundingClientRect();
         const l = letter.getBoundingClientRect();
