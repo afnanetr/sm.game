@@ -3,8 +3,8 @@ const game = document.getElementById("game");
 const startBtn = document.getElementById("startBtn");
 const player = document.getElementById("player");
 
-let x = 600;
-let y = 500;
+let x = 100;
+let y = 100;
 const speed = 5;
 
 const keys = {};
@@ -45,7 +45,11 @@ function collectLetter(letter){
 
     isPicking = true;
 
+    console.log("Letter collected!");
+
     player.src = pickSpriteMap[lastDirection];
+
+    letter.style.display = "none";
 
     setTimeout(() => {
         letter.remove();
@@ -56,9 +60,10 @@ function collectLetter(letter){
 
 function checkLetters(){
 
+    const p = player.getBoundingClientRect();
+
     document.querySelectorAll(".letter").forEach(letter => {
 
-        const p = player.getBoundingClientRect();
         const l = letter.getBoundingClientRect();
 
         if(
@@ -74,24 +79,27 @@ function checkLetters(){
 
 function update(){
 
-    if(keys["ArrowLeft"]){
-        x -= speed;
-        lastDirection = "left";
-    }
+    if(!isPicking){
 
-    if(keys["ArrowRight"]){
-        x += speed;
-        lastDirection = "right";
-    }
+        if(keys["ArrowLeft"]){
+            x -= speed;
+            lastDirection = "left";
+        }
 
-    if(keys["ArrowUp"]){
-        y -= speed;
-        lastDirection = "back";
-    }
+        if(keys["ArrowRight"]){
+            x += speed;
+            lastDirection = "right";
+        }
 
-    if(keys["ArrowDown"]){
-        y += speed;
-        lastDirection = "front";
+        if(keys["ArrowUp"]){
+            y -= speed;
+            lastDirection = "back";
+        }
+
+        if(keys["ArrowDown"]){
+            y += speed;
+            lastDirection = "front";
+        }
     }
 
     x = Math.max(0, Math.min(x, 1130));
