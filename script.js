@@ -10,12 +10,11 @@ const speed = 5;
 const keys = {};
 let lastDirection = "front";
 let isPicking = false;
-let pickDirection = "front";
 
 startBtn.addEventListener("click", () => {
     menu.style.display = "none";
     game.style.display = "block";
-    update();
+    requestAnimationFrame(update);
 });
 
 document.addEventListener("keydown", (e) => {
@@ -35,8 +34,8 @@ const spriteMap = {
 
 const pickSpriteMap = {
     left: "character_pick_left.png",
-    right: "character_s_right.png",
-    back: "character_s_back.png",
+    right: "character_pick_right.png",
+    back: "character_pick_back.png",
     front: "character_pick.png"
 };
 
@@ -45,12 +44,11 @@ function collectLetter(letter){
     if(isPicking) return;
 
     isPicking = true;
-    pickDirection = lastDirection;
 
-    player.src = pickSpriteMap[pickDirection];
+    player.src = pickSpriteMap[lastDirection];
 
     setTimeout(() => {
-        letter.remove(); // Remove the letter element completely
+        letter.remove();
         isPicking = false;
         player.src = spriteMap[lastDirection];
     }, 1500);
@@ -95,6 +93,9 @@ function update(){
         y += speed;
         lastDirection = "front";
     }
+
+    x = Math.max(0, Math.min(x, 1130));
+    y = Math.max(0, Math.min(y, 850));
 
     player.style.left = x + "px";
     player.style.top = y + "px";
