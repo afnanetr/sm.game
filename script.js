@@ -3,6 +3,13 @@ const game = document.getElementById("game");
 const startBtn = document.getElementById("startBtn");
 const player = document.getElementById("player");
 
+const messageBox = document.getElementById("messageBox");
+const messageTitle = document.getElementById("messageTitle");
+const messageText = document.getElementById("messageText");
+
+let gameStarted = false;
+let lettersCollected = 0;
+
 let x = 100;
 let y = 100;
 const speed = 5;
@@ -11,14 +18,49 @@ const keys = {};
 let lastDirection = "front";
 let isPicking = false;
 
+function showMessage(title, text){
+    messageTitle.textContent = title;
+    messageText.textContent = text;
+    messageBox.style.display = "block";
+}
+
+function hideMessage(){
+    messageBox.style.display = "none";
+}
+
 startBtn.addEventListener("click", () => {
+
     menu.style.display = "none";
     game.style.display = "block";
-    requestAnimationFrame(update);
+
+    showMessage(
+        "Movement 💖",
+        "Use WASD, ZQSD, or the Arrow Keys to move around!"
+    );
+
 });
 
 document.addEventListener("keydown", (e) => {
+
     keys[e.key] = true;
+
+    if(!gameStarted){
+
+        gameStarted = true;
+
+        showMessage(
+            "Mission 1 💌",
+            "Hello! Welcome! Start searching and picking the letters. There are 7 hidden letters!"
+        );
+
+        setTimeout(() => {
+
+            hideMessage();
+
+            requestAnimationFrame(update);
+
+        }, 5000);
+    }
 });
 
 document.addEventListener("keyup", (e) => {
@@ -35,7 +77,7 @@ const spriteMap = {
 const pickSpriteMap = {
     left: "character_pick_left.png",
     right: "character_pick.png",
-    back: "character_pick_back.png",
+    back: "character_pick_front.png",
     front: "character_pick_front.png"
 };
 
@@ -45,16 +87,29 @@ function collectLetter(letter){
 
     isPicking = true;
 
-    console.log("Letter collected!");
-
     player.src = pickSpriteMap[lastDirection];
 
     letter.style.display = "none";
 
+    lettersCollected++;
+
     setTimeout(() => {
+
         letter.remove();
+
         isPicking = false;
+
         player.src = spriteMap[lastDirection];
+
+        if(lettersCollected === 7){
+
+            showMessage(
+                "Congratulations! 🎉",
+                "You've completed your first mission! 💖"
+            );
+
+        }
+
     }, 1500);
 }
 
@@ -81,25 +136,26 @@ function update(){
 
     if(!isPicking){
 
-        if(keys["ArrowLeft"]){
+        if(keys["ArrowLeft"] || keys["a"] || keys["q"]){
             x -= speed;
             lastDirection = "left";
         }
 
-        if(keys["ArrowRight"]){
+        if(keys["ArrowRight"] || keys["d"]){
             x += speed;
             lastDirection = "right";
         }
 
-        if(keys["ArrowUp"]){
+        if(keys["ArrowUp"] || keys["w"] || keys["z"]){
             y -= speed;
             lastDirection = "back";
         }
 
-        if(keys["ArrowDown"]){
+        if(keys["ArrowDown"] || keys["s"]){
             y += speed;
             lastDirection = "front";
         }
+
     }
 
     x = Math.max(0, Math.min(x, 1130));
